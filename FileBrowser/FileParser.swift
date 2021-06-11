@@ -12,7 +12,20 @@ class FileParser {
     
     static let sharedInstance = FileParser()
     
+    var _onlyFileExtensions = [String]()
     var _excludesFileExtensions = [String]()
+    
+    /// Mapped for case insensitivity
+    var onlyFileExtensions: [String]? {
+        get {
+            return _onlyFileExtensions.map({$0.lowercased()})
+        }
+        set {
+            if let newValue = newValue {
+                _onlyFileExtensions = newValue
+            }
+        }
+    }
     
     /// Mapped for case insensitivity
     var excludesFileExtensions: [String]? {
@@ -27,6 +40,8 @@ class FileParser {
     }
     
     var excludesFilepaths: [URL]?
+    
+    var enableDirectory: Bool = true
     
     let fileManager = FileManager.default
     
@@ -46,6 +61,12 @@ class FileParser {
         // Parse
         for filePath in filePaths {
             let file = FBFile(filePath: filePath)
+            if file.isDirectory && !enableDirectory {
+                continue
+            }
+            if let onlyFileExtensions = onlyFileExtensions, let fileExtensions = file.fileExtension , !onlyFileExtensions.contains(fileExtensions) {
+                continue
+            }
             if let excludesFileExtensions = excludesFileExtensions, let fileExtensions = file.fileExtension , excludesFileExtensions.contains(fileExtensions) {
                 continue
             }

@@ -14,6 +14,13 @@ open class FileBrowser: UINavigationController {
     let parser = FileParser.sharedInstance
     
     var fileList: FileListViewController?
+    
+    /// Available ile types
+    open var onlyFileExtensions: [String]? {
+        didSet {
+            parser.onlyFileExtensions = onlyFileExtensions
+        }
+    }
 
     /// File types to exclude from the file browser.
     open var excludesFileExtensions: [String]? {
@@ -26,6 +33,13 @@ open class FileBrowser: UINavigationController {
     open var excludesFilepaths: [URL]? {
         didSet {
             parser.excludesFilepaths = excludesFilepaths
+        }
+    }
+    
+    // Enable directory
+    open var enableDirectory: Bool = true {
+        didSet {
+            parser.enableDirectory = enableDirectory
         }
     }
     
