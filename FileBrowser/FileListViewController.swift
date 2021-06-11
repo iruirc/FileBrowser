@@ -30,6 +30,7 @@ class FileListViewController: UIViewController {
         searchController.searchBar.searchBarStyle = .minimal
         searchController.searchBar.backgroundColor = UIColor.white
         searchController.dimsBackgroundDuringPresentation = false
+        searchController.hidesNavigationBarDuringPresentation = false
         return searchController
     }()
     
